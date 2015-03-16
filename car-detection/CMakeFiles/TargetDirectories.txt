@@ -1,0 +1,1 @@
+/home/kamikaze/CAR-DETECTION/CMakeFiles/car_detect.dir

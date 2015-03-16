@@ -1,0 +1,5 @@
+cmake_minimum_required(VERSION 2.8)
+project( car_detect )
+find_package( OpenCV REQUIRED )
+add_executable( car_detect car_detect.cpp )
+target_link_libraries( car_detect ${OpenCV_LIBS} )

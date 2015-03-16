@@ -1,0 +1,20 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/kamikaze/CAR-DETECTION/car_detect.cpp
+opencv2/objdetect/objdetect.hpp
+/home/kamikaze/CAR-DETECTION/opencv2/objdetect/objdetect.hpp
+opencv2/highgui/highgui.hpp
+/home/kamikaze/CAR-DETECTION/opencv2/highgui/highgui.hpp
+opencv2/imgproc/imgproc.hpp
+/home/kamikaze/CAR-DETECTION/opencv2/imgproc/imgproc.hpp
+iostream
+-
+iterator
+-
+

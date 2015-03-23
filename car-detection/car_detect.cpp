@@ -1,26 +1,3 @@
-/* 
-
-
- * @file car_detect.cpp
- * @author Abhishek Kumar Annamraju
-
-
-
-This code provides faster car detection.
-
-Also for the first time multiple cascade files are used to detect objects,with a benefit that no two objects
-are detected twice.
-
-Ever car detected in an image goes through a two stage testing.
-
-The number of checkcascades are set to 1.It is desirable not to change this number.
-
-USAGE: ./car_detect IMAGE.EXTENTION checkcas.xml cas1.xml cas2.xml cas3.xml cas4.xml ..........upto n number of main cascade xml files
-
-ckeckcas.xml is the one trained with smallest size parameters and the rest are the main cascades
-
-*/
-
 #include "opencv2/objdetect/objdetect.hpp"
 #include "opencv2/highgui/highgui.hpp"
 #include "opencv2/imgproc/imgproc.hpp"
@@ -34,7 +11,7 @@ using namespace cv;
 
 void help()
 {
-	cout << endl << "USAGE: ./car_detect IMAGE.EXTENTION checkcas.xml cas1.xml cas2.xml cas3.xml cas4.xml ..........upto n number of main cascade xml files" << endl;
+	cout << endl << "USAGE: ./car_detect IMAGE.EXTENSION checkcas.xml cas1.xml cas2.xml cas3.xml cas4.xml ..........upto n number of main cascade xml files" << endl;
 	cout << endl << "ckeckcas.xml is the one trained with smallest size parameters and the rest are the main cascades" << endl;
 }
 
@@ -133,39 +110,36 @@ class cars     //main class
 
 	void findcars(char* filename, FILE *fp)                 //main function
 	{
-    	int i = 0;
+	    int i = 0;
     	
-			//cout <<"here";
-	
-	Mat img = storage.clone();
-		//cout <<"here";
-		Mat temp;                    //for region of interest.If a car is detected(after testing) by one classifier,then it will not be available for other one
+	    Mat img = storage.clone();
+	    Mat temp;                    //for region of interest.If a car is detected(after testing) by one classifier,then it will not be available for other one
 		
-		if(img.empty() )
-        {
-			cout << endl << "detect not successful" << endl;
-		}
-		//cout << "here";
-		int cen_x;                         
-		int cen_y;
-    	vector<Rect> cars;
-    	const static Scalar colors[] =  { CV_RGB(0,0,255),CV_RGB(0,255,0),CV_RGB(255,0,0),CV_RGB(255,255,0),CV_RGB(255,0,255),CV_RGB(0,255,255),CV_RGB(255,255,255),CV_RGB(128,0,0),CV_RGB(0,128,0),CV_RGB(0,0,128),CV_RGB(128,128,128),CV_RGB(0,0,0)};                   
+	    if(img.empty() )
+	    {
+		cout << endl << "detect not successful" << endl;
+	    }
+		
+	    int cen_x;                         
+	    int cen_y;
+	    vector<Rect> cars;
+	    const static Scalar colors[] =  { CV_RGB(0,0,255),CV_RGB(0,255,0),CV_RGB(255,0,0),CV_RGB(255,255,0),CV_RGB(255,0,255),CV_RGB(0,255,255),CV_RGB(255,255,255),CV_RGB(128,0,0),CV_RGB(0,128,0),CV_RGB(0,0,128),CV_RGB(128,128,128),CV_RGB(0,0,0)};                   
         	
-    	Mat gray; 
+	    Mat gray; 
 
-    	cvtColor( img, gray, CV_BGR2GRAY );
+	    cvtColor( img, gray, CV_BGR2GRAY );
 
-		Mat resize_image(cvRound (img.rows), cvRound(img.cols), CV_8UC1 );		
+	    Mat resize_image(cvRound (img.rows), cvRound(img.cols), CV_8UC1 );		
 
-    	resize( gray, resize_image, resize_image.size(), 0, 0, INTER_LINEAR );
-    	equalizeHist( resize_image, resize_image );
+	    resize( gray, resize_image, resize_image.size(), 0, 0, INTER_LINEAR );
+	    equalizeHist( resize_image, resize_image );
 
     	
-    	cascade.detectMultiScale( resize_image, cars,1.1,2,0,Size(10,10));                 //detection using main classifier 
+	    cascade.detectMultiScale( resize_image, cars,1.1,2,0,Size(10,10));                 //detection using main classifier 
         	
 		
-		for( vector<Rect>::const_iterator main = cars.begin(); main != cars.end(); main++, i++ )
-    	{
+	    for( vector<Rect>::const_iterator main = cars.begin(); main != cars.end(); main++, i++ )
+	    {
        		Mat resize_image_reg_of_interest;
         	vector<Rect> nestedcars;
         	Point center;
@@ -217,7 +191,7 @@ class cars     //main class
 				
                     	   
 	if(image_main_result.empty() )
-    {
+	{
 		cout << endl << "result storage not successful" << endl;
 	}			
 			
@@ -231,36 +205,36 @@ class cars     //main class
 int main( int argc, const char** argv )
 {
 		
-	double t = 0;
+    double t = 0;
     t = (double)cvGetTickCount();              //starting timer
     //Mat image1 = imread(argv[1],1);
 	                    //creating a object
 	
 	
-	FILE *fp = fopen("results2.txt", "w");
-	for(int i=0; i<170;i++)
-	{
-	    char filename[50];
-	    sprintf(filename, "images/test-%d.pgm", i);
-	    Mat image1 = imread(filename, 1);
-	    if(image1.empty())
-		continue;
+    FILE *fp = fopen("resultsnew.txt", "w");
+    for(int i=0; i<170;i++)
+    {
+	char filename[50];
+	sprintf(filename, "TestImages_PNG/test-%d.png", i);
+	Mat image1 = imread(filename, 1);
+	if(image1.empty())
+	    continue;
 	    
-	    Mat image;
-	    //resize(image1,image,Size(300,150),0,0,INTER_LINEAR);        //resizing image to get best experimental results
-	    cars detectcars;  
+	Mat image;
+	//resize(image1,image,Size(300,150),0,0,INTER_LINEAR);        //resizing image to get best experimental results
+	cars detectcars;  
 	    
-	    string checkcas = argv[2];
+	string checkcas = argv[1];
 
-	    detectcars.getimage(image1);           //get the image
-	    detectcars.setnum();                  //set number of cars detected as 0
-	    detectcars.checkcascade_load(checkcas);      //load the test cascade
+	detectcars.getimage(image1);           //get the image
+	detectcars.setnum();                  //set number of cars detected as 0
+	detectcars.checkcascade_load(checkcas);      //load the test cascade
 	    
 	
 	//Applying various cascades for a finer search.
-	if(argc > 3)
+	if(argc > 2)
 	{
-		for(int i = 3;i<argc;i++)
+		for(int i = 2;i<argc;i++)
 		{
 			string cas = argv[i];			
 			detectcars.cascade_load(cas);
@@ -286,15 +260,12 @@ int main( int argc, const char** argv )
 		cout << endl << "cars not found" << endl;
 	}
 	
-	detectcars.display_output();
+	//detectcars.display_output();
+		
+    }
 	
-	
-	
-	}
-	fclose(fp);
-	          //displaying the final result
-	
-	return 0;
+    fclose(fp);
+    return 0;
 }
 
 

@@ -1,6 +1,6 @@
 # DenseMatrix-AR
 
-Go to `car-detection-HOG` for the main code. (UIUC Car dataset)
+###### Go to `car-detection-HOG` for the main code. (UIUC Car dataset)
 
 Make sure you have g++, OpenCV, cmake etc. installed in your system.
 

@@ -1,5 +1,7 @@
 # DenseMatrix-AR
 
+Go to `car-detection-HOG` for the main code. (UIUC Car dataset)
+
 Make sure you have g++, OpenCV, cmake etc. installed in your system.
 
 1. Run 'cmake .' or 'cmake ..' depending on where you want to build Makefile (prefer building in a seperate 'build' directory).

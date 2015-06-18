@@ -1,0 +1,6 @@
+/build/Debug/
+/pos_red/
+/neg_red/
+/libsvm/svm.h
+/libsvm/libsvm.h_bak
+/libsvm/svm.cpp
